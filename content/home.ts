@@ -7,7 +7,7 @@ export const hero = {
   copy: "Websites, web apps, SEO, ads and AI automation — designed, built and marketed by one team, so every part of your digital presence works toward the same goal: more customers.",
   capabilities: ["Strategy", "Design", "Development", "Marketing", "Automation", "Ongoing Support"],
   dashboard: {
-    caption: "This could be your dashboard",
+    caption: "Sample dashboard",
     badge: "AI-Powered Insights",
     product: "Growth Platform",
     kpis: [

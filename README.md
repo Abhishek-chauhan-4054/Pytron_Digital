@@ -2,14 +2,21 @@
 
 Marketing site for Pytron Digital, built from the Master Website Build Prompt (v2).
 
-**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Lucide icons · Geist (self-hosted via `geist`) · static generation · one route handler for the contact form.
+**Stack:** Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Lucide icons · Geist (self-hosted via `geist`) · static generation + ISR · Supabase (CMS).
+
+## CMS
+
+Content is managed at **`/admin`** (pages, services, blog, media, navigation, SEO, settings, users, audit log), backed by Supabase. **Setup, roles, limits and rollback: see [`CMS_SETUP.md`](./CMS_SETUP.md).**
+
+Without the Supabase environment variables the site runs exactly as before from `content/*.ts`. Once the CMS is connected, the database is the source of truth for blog posts, services (cards, hero, features, SEO), the hero copy and SEO of the main pages, footer links and contact details — edit those in `/admin`, not in the files below (the files remain the fallback and the source for long-form service sections, industries, locations, products and case studies).
 
 ## Run it
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # production build (70 static routes)
+npm run lint
+npm run build      # production build
 npm start
 ```
 

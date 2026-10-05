@@ -1,11 +1,16 @@
 import { brand, site } from "@/content/site";
-import type { BlogPost, FAQItem } from "@/content/types";
+import type { FAQItem } from "@/content/types";
+import type { PublicPost } from "@/lib/cms/public/blog";
+import type { PublicSettings } from "@/lib/cms/public/site";
 import { absoluteUrl } from "./seo";
 
 const ORG_ID = `${site.url}/#organization`;
 const SITE_ID = `${site.url}/#website`;
 
-export function organizationSchema() {
+export function organizationSchema(settings?: Pick<PublicSettings, "email" | "phoneDisplay" | "social">) {
+  const email = settings?.email ?? site.contact.email;
+  const telephone = settings ? settings.phoneDisplay.replace(/[^\d+]/g, "").replace(/^\+?(\d{2})(\d{5})(\d{5})$/, "+$1-$2-$3") : "+91-70092-14812";
+  const social = settings?.social ?? site.social;
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -16,8 +21,8 @@ export function organizationSchema() {
     image: absoluteUrl("/og-default.png"),
     slogan: brand.line,
     description: brand.positioning,
-    email: site.contact.email,
-    telephone: "+91-70092-14812",
+    email,
+    telephone,
     founder: { "@type": "Person", name: site.founder.name },
     parentOrganization: { "@type": "Organization", name: site.parent.name, url: site.parent.url },
     address: {
@@ -27,13 +32,13 @@ export function organizationSchema() {
       addressCountry: site.location.countryCode,
     },
     areaServed: ["US", "GB", "CA", "AU", "AE", "IN"],
-    ...(site.social.length ? { sameAs: site.social.map((s) => s.url) } : {}),
+    ...(social.length ? { sameAs: social.map((s) => s.url) } : {}),
     contactPoint: [
       {
         "@type": "ContactPoint",
         contactType: "sales",
-        email: site.contact.email,
-        telephone: "+91-70092-14812",
+        email,
+        telephone,
         availableLanguage: ["English", "Hindi"],
       },
     ],
@@ -90,7 +95,7 @@ export function faqSchema(faqs: FAQItem[]) {
   };
 }
 
-export function articleSchema(post: BlogPost) {
+export function articleSchema(post: PublicPost) {
   const url = absoluteUrl(`/blog/${post.slug}/`);
   return {
     "@context": "https://schema.org",
@@ -98,12 +103,13 @@ export function articleSchema(post: BlogPost) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated && post.updated > post.date ? post.updated : post.date,
     author: { "@type": "Organization", name: post.author, url: site.url },
     publisher: { "@id": ORG_ID },
     mainEntityOfPage: url,
     url,
-    image: absoluteUrl("/og-default.png"),
-    articleSection: post.category,
+    image: absoluteUrl(post.ogImage || post.featuredImage || "/og-default.png"),
+    articleSection: post.category.name,
+    ...(post.tags.length ? { keywords: post.tags.map((t) => t.name).join(", ") } : {}),
   };
 }

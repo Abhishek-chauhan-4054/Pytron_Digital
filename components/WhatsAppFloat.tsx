@@ -1,13 +1,12 @@
 import { MessageCircle } from "lucide-react";
-import { site } from "@/content/site";
 import { ICON_STROKE } from "./Icon";
 
 /** Small floating WhatsApp click-to-chat button, shown on mobile only. */
-export function WhatsAppFloat() {
+export function WhatsAppFloat({ href }: { href: string }) {
   return (
     <aside aria-label="Quick contact" className="md:hidden">
     <a
-      href={site.contact.whatsapp}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with Pytron Digital on WhatsApp (opens in a new tab)"

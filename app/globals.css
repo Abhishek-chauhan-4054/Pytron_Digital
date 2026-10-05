@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Class-based dark mode — used only by the admin CMS (the public site has no dark styles). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
@@ -331,4 +334,118 @@ section.bg-surface {
     border-color: var(--color-electric-400);
     box-shadow: 0 0 0 4px rgb(11 139 255 / 0.12), var(--shadow-card);
   }
+}
+
+/* =====================================================================
+   Admin CMS design system (scoped with the adm- prefix; public site unaffected)
+   ===================================================================== */
+@layer components {
+  .adm-root {
+    @apply min-h-screen bg-slate-50 text-slate-800 antialiased dark:bg-[#070b17] dark:text-slate-200;
+    color-scheme: light;
+  }
+  .adm-root.dark {
+    color-scheme: dark;
+  }
+  .adm-root :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .adm-root h1,
+  .adm-root h2,
+  .adm-root h3,
+  .adm-root h4 {
+    @apply text-slate-900 dark:text-white;
+  }
+  .adm-card {
+    @apply rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04)] dark:border-white/10 dark:bg-[#0d1426];
+  }
+  .adm-muted {
+    @apply text-slate-500 dark:text-slate-400;
+  }
+  .adm-label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200;
+  }
+  .adm-input {
+    @apply block min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-[inset_0_1px_1px_rgb(15_23_42/0.04)] transition-colors placeholder:text-slate-400 hover:border-slate-400 focus:border-brand-500 focus:outline-none dark:border-white/15 dark:bg-white/5 dark:text-white dark:placeholder:text-slate-500 dark:hover:border-white/25;
+  }
+  .adm-input[aria-invalid="true"] {
+    @apply border-red-500 dark:border-red-400;
+  }
+  .adm-input:disabled {
+    @apply cursor-not-allowed bg-slate-100 text-slate-500 dark:bg-white/[0.03];
+  }
+  .adm-btn {
+    @apply inline-flex min-h-9 items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold whitespace-nowrap transition-[background-color,border-color,color,box-shadow] duration-150 select-none disabled:cursor-not-allowed disabled:opacity-55;
+  }
+  .adm-btn-primary {
+    @apply bg-brand-600 text-white shadow-[0_1px_2px_rgb(36_87_230/0.35)] hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600;
+  }
+  .adm-btn-secondary {
+    @apply border border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50 dark:border-white/15 dark:bg-white/5 dark:text-slate-100 dark:hover:bg-white/10;
+  }
+  .adm-btn-ghost {
+    @apply text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white;
+  }
+  .adm-btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+  .adm-btn-sm {
+    @apply min-h-8 px-2.5 py-1.5 text-[0.8rem];
+  }
+  .adm-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ring-inset;
+  }
+  .adm-th {
+    @apply px-4 py-2.5 text-left text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400;
+  }
+  .adm-td {
+    @apply px-4 py-3 align-middle text-sm;
+  }
+  .adm-skeleton {
+    @apply animate-pulse rounded-md bg-slate-200/80 dark:bg-white/10;
+  }
+  .adm-tiptap .ProseMirror {
+    @apply min-h-64 px-4 py-3 text-[0.95rem] leading-relaxed text-slate-800 outline-none dark:text-slate-100;
+  }
+  .adm-tiptap .ProseMirror > * + * {
+    @apply mt-3;
+  }
+  .adm-tiptap .ProseMirror h2 {
+    @apply text-xl font-semibold;
+  }
+  .adm-tiptap .ProseMirror h3 {
+    @apply text-lg font-semibold;
+  }
+  .adm-tiptap .ProseMirror ul {
+    @apply list-disc pl-6;
+  }
+  .adm-tiptap .ProseMirror ol {
+    @apply list-decimal pl-6;
+  }
+  .adm-tiptap .ProseMirror blockquote {
+    @apply border-l-4 border-slate-300 pl-4 italic dark:border-white/20;
+  }
+  .adm-tiptap .ProseMirror a {
+    @apply text-brand-600 underline dark:text-brand-300;
+  }
+  .adm-tiptap .ProseMirror img {
+    @apply max-h-80 rounded-lg border border-slate-200;
+  }
+  .adm-tiptap .ProseMirror pre {
+    @apply rounded-lg bg-slate-900 p-3 font-mono text-sm text-slate-100;
+  }
+  .adm-tiptap .ProseMirror code {
+    @apply rounded bg-slate-100 px-1 font-mono text-[0.85em] dark:bg-white/10;
+  }
+  .adm-tiptap .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply pointer-events-none float-left h-0 text-slate-400;
+  }
+}
+
+dialog.adm-dialog::backdrop {
+  background: rgb(2 6 23 / 0.55);
+  backdrop-filter: blur(2px);
 }

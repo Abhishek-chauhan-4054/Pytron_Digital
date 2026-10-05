@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { brand, footerNav, site } from "@/content/site";
+import { brand, site } from "@/content/site";
+import type { FooterLink, FooterNav } from "@/lib/cms/public/site";
+import type { PublicSettings } from "@/lib/cms/public/site";
 import { Logo } from "./Logo";
 
 function Col({ title, children, className = "" }: { title: string; children: React.ReactNode; className?: string }) {
@@ -13,7 +15,23 @@ function Col({ title, children, className = "" }: { title: string; children: Rea
 
 const linkCls = "text-slate-300 transition-colors hover:text-white";
 
-export function Footer() {
+function NavLinkItem({ l }: { l: FooterLink }) {
+  return (
+    <li>
+      {l.external ? (
+        <a className={linkCls} href={l.href} target="_blank" rel="noopener noreferrer">
+          {l.label}
+        </a>
+      ) : (
+        <Link className={linkCls} href={l.href}>
+          {l.label}
+        </Link>
+      )}
+    </li>
+  );
+}
+
+export function Footer({ nav, settings }: { nav: FooterNav; settings: PublicSettings }) {
   const year = new Date().getFullYear();
   return (
     <footer className="on-dark bg-navy-950 text-slate-300">
@@ -23,9 +41,9 @@ export function Footer() {
             <Logo dark />
             <p className="mt-5 text-sm font-semibold text-white">{brand.line}</p>
             <p className="mt-2 max-w-xs text-sm leading-relaxed">{brand.footerBlurb}</p>
-            {site.social.length > 0 && (
+            {settings.social.length > 0 && (
               <ul className="mt-6 flex flex-wrap gap-2" aria-label="Social media">
-                {site.social.map((sl) => (
+                {settings.social.map((sl) => (
                   <li key={sl.label}>
                     <a
                       href={sl.url}
@@ -42,47 +60,29 @@ export function Footer() {
           </div>
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-[1fr_1fr_1fr_1.45fr] lg:col-span-8">
             <Col title="Services">
-              {footerNav.services.map((l) => (
-                <li key={l.label}>
-                  <Link className={linkCls} href={l.href}>
-                    {l.label}
-                  </Link>
-                </li>
+              {nav.services.map((l) => (
+                <NavLinkItem key={`${l.label}-${l.href}`} l={l} />
               ))}
             </Col>
             <Col title="Solutions">
-              {footerNav.solutions.map((l) => (
-                <li key={l.label}>
-                  <Link className={linkCls} href={l.href}>
-                    {l.label}
-                  </Link>
-                </li>
+              {nav.solutions.map((l) => (
+                <NavLinkItem key={`${l.label}-${l.href}`} l={l} />
               ))}
             </Col>
             <Col title="Company">
-              {footerNav.company.map((l) => (
-                <li key={l.label}>
-                  {"external" in l && l.external ? (
-                    <a className={linkCls} href={l.href} target="_blank" rel="noopener noreferrer">
-                      {l.label}
-                    </a>
-                  ) : (
-                    <Link className={linkCls} href={l.href}>
-                      {l.label}
-                    </Link>
-                  )}
-                </li>
+              {nav.company.map((l) => (
+                <NavLinkItem key={`${l.label}-${l.href}`} l={l} />
               ))}
             </Col>
             <Col title="Contact" className="col-span-2 sm:col-span-1">
               <li>
-                <a className={`${linkCls} break-words`} href={`mailto:${site.contact.email}`}>
-                  {site.contact.email}
+                <a className={`${linkCls} break-words`} href={`mailto:${settings.email}`}>
+                  {settings.email}
                 </a>
               </li>
               <li>
-                <a className={linkCls} href={site.contact.phoneHref}>
-                  {site.contact.phoneDisplay}
+                <a className={linkCls} href={settings.phoneHref}>
+                  {settings.phoneDisplay}
                 </a>
               </li>
               <li>
@@ -105,12 +105,8 @@ export function Footer() {
             © {year} {brand.name}. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {footerNav.legal.map((l) => (
-              <li key={l.label}>
-                <Link className={linkCls} href={l.href}>
-                  {l.label}
-                </Link>
-              </li>
+            {nav.legal.map((l) => (
+              <NavLinkItem key={`${l.label}-${l.href}`} l={l} />
             ))}
           </ul>
         </div>

@@ -71,6 +71,8 @@ export function ContactForm() {
 
   useEffect(() => {
     const interest = new URLSearchParams(window.location.search).get("interest");
+    // Pre-select the need from ?interest= once on mount (the URL is only readable on the client).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (interest && interestMap[interest]) setV((p) => ({ ...p, needs: [interestMap[interest]] }));
   }, []);
 

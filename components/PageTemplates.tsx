@@ -8,6 +8,9 @@ import { Icon, ICON_STROKE } from "./Icon";
 import { Breadcrumbs, CTASection, FAQ, ProcessTimeline } from "./Sections";
 import { ButtonLink, CheckList, JsonLd, SectionHeader } from "./ui";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
+import type { RichDoc } from "@/lib/cms/types";
+import { isEmptyDoc } from "@/lib/rich-text/text";
+import { RichText } from "./cms/RichText";
 
 export type Crumb = { name: string; path: string };
 
@@ -167,7 +170,19 @@ const hubServicesTitle: Record<ServiceHub["pillar"], string> = {
 };
 
 /** Generic service detail page (marketing, web development, AI). */
-export function ServicePageView({ page, pillar }: { page: ServicePage; pillar: ServiceHub["pillar"] }) {
+export function ServicePageView({
+  page,
+  pillar,
+  overview,
+  heroCta,
+}: {
+  page: ServicePage;
+  pillar: ServiceHub["pillar"];
+  /** Optional CMS "full description", shown as an overview right after the hero */
+  overview?: RichDoc | null;
+  /** Optional CMS CTA replacing the pillar default in the hero */
+  heroCta?: { label: string; href: string } | null;
+}) {
   const pm = pillarMeta[pillar];
   const path = `${pm.path}${page.slug}/`;
   const crumbs: Crumb[] = [
@@ -200,10 +215,18 @@ export function ServicePageView({ page, pillar }: { page: ServicePage; pillar: S
         eyebrow={pm.name}
         title={page.h1}
         intro={page.intro}
-        cta={cta}
+        cta={heroCta ?? cta}
         secondary={{ label: "See Our Work", href: "/work/" }}
         aside={<HeroPanel icon={page.icon} title={page.label} items={page.included} />}
       />
+
+      {overview && !isEmptyDoc(overview) && (
+        <section className="section pb-0 sm:pb-0 lg:pb-0" aria-label="Overview">
+          <div className="container-x max-w-3xl" data-reveal>
+            <RichText doc={overview} variant="page" />
+          </div>
+        </section>
+      )}
 
       {/* Problem / Solution */}
       <section className="section" aria-label="Problem and solution">
@@ -348,7 +371,18 @@ export function RelatedLinks({ links, title = "Related services and reading" }: 
 }
 
 /** Hub page for a service pillar. */
-export function ServiceHubView({ hub, pages }: { hub: ServiceHub; pages: ServicePage[] }) {
+export type ServiceCardData = Pick<ServicePage, "slug" | "label" | "summary" | "icon">;
+
+export function ServiceHubView({
+  hub,
+  pages,
+  hero,
+}: {
+  hub: ServiceHub;
+  pages: ServiceCardData[];
+  /** CMS hero copy (falls back to the hub's built-in copy) */
+  hero?: { title: string; intro: string; cta?: { label: string; href: string } };
+}) {
   const pm = pillarMeta[hub.pillar];
   const crumbs: Crumb[] = [
     { name: "Home", path: "/" },
@@ -371,7 +405,14 @@ export function ServiceHubView({ hub, pages }: { hub: ServiceHub; pages: Service
           faqSchema(hub.faqs),
         ]}
       />
-      <PageHero crumbs={crumbs} eyebrow={hub.eyebrow} title={hub.h1} intro={hub.intro} cta={cta} secondary={{ label: "See Our Work", href: "/work/" }} />
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={hub.eyebrow}
+        title={hero?.title ?? hub.h1}
+        intro={hero?.intro ?? hub.intro}
+        cta={hero?.cta ?? cta}
+        secondary={{ label: "See Our Work", href: "/work/" }}
+      />
 
       <section className="section" aria-labelledby="services-title" id="services">
         <div className="container-x">
@@ -464,5 +505,75 @@ export function IconBullet({ icon, title, text }: { icon: Parameters<typeof Icon
         <p className="mt-1 text-[0.95rem] leading-relaxed text-muted">{text}</p>
       </div>
     </div>
+  );
+}
+
+/** Detail page for a service created in the CMS (no built-in sections in code). */
+export function CmsServiceView({
+  page,
+  pillar,
+  description,
+  image,
+  heroCta,
+}: {
+  page: ServicePage;
+  pillar: ServiceHub["pillar"];
+  description: RichDoc | null;
+  image: string;
+  heroCta: { label: string; href: string } | null;
+}) {
+  const pm = pillarMeta[pillar];
+  const path = `${pm.path}${page.slug}/`;
+  const crumbs: Crumb[] = [
+    { name: "Home", path: "/" },
+    { name: pm.name, path: pm.path },
+    { name: page.label, path },
+  ];
+  const cta = heroCta ?? ctas[pm.cta];
+  return (
+    <>
+      <JsonLd data={[serviceSchema({ name: page.label, description: page.meta.description, path }), breadcrumbSchema(crumbs)]} />
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={pm.name}
+        title={page.h1}
+        intro={page.intro}
+        cta={cta}
+        secondary={{ label: "See Our Work", href: "/work/" }}
+        aside={page.included.length ? <HeroPanel icon={page.icon} title={page.label} items={page.included} /> : undefined}
+      />
+      {(image || (description && !isEmptyDoc(description))) && (
+        <section className="section" aria-label="About this service">
+          <div className={`container-x ${image ? "grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]" : "max-w-3xl"}`}>
+            <div data-reveal>{description && <RichText doc={description} variant="page" />}</div>
+            {image && (
+              // CMS images are user-uploaded with unknown dimensions
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={image} alt="" loading="lazy" decoding="async" className="w-full rounded-[var(--radius-card)] border border-line shadow-[var(--shadow-card)]" />
+            )}
+          </div>
+        </section>
+      )}
+      {page.included.length > 0 && (
+        <section className="section bg-surface" aria-labelledby="included-title">
+          <div className="container-x grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+            <div data-reveal>
+              <p className="eyebrow eyebrow-dot">What&apos;s Included</p>
+              <h2 id="included-title" className="h-section mt-3">
+                Everything you get with {page.label}
+              </h2>
+              <p className="lead mt-4">Scope is tailored to your goals in the proposal. These are the building blocks.</p>
+              <div className="mt-7">
+                <ButtonLink href={cta.href}>{cta.label}</ButtonLink>
+              </div>
+            </div>
+            <div className="card" data-reveal>
+              <CheckList items={page.included} />
+            </div>
+          </div>
+        </section>
+      )}
+      <CTASection primary={{ label: cta.label, href: cta.href }} secondary={{ label: "Explore What We Do", href: "/services/" }} />
+    </>
   );
 }

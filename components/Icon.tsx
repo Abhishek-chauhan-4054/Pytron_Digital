@@ -103,6 +103,9 @@ const map: Record<IconName, LucideIcon> = {
   user: User,
 };
 
+/** Every icon name the site can render (used by the CMS icon picker). */
+export const ICON_NAMES = Object.keys(map) as IconName[];
+
 export function Icon({ name, className = "h-5 w-5" }: { name: IconName; className?: string }) {
   const C = map[name];
   return <C className={className} strokeWidth={ICON_STROKE} aria-hidden="true" />;
