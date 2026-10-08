@@ -70,10 +70,10 @@ export async function getSettings(): Promise<PublicSettings> {
         .filter(([, url]) => Boolean(url))
         .map(([label, url]) => ({ label, url }));
       return {
-        email: s.contact_email || site.contact.email,
-        phoneDisplay: s.contact_phone || site.contact.phoneDisplay,
-        phoneHref: s.contact_phone ? telHref(s.contact_phone) : site.contact.phoneHref,
-        whatsapp: s.whatsapp_url || site.contact.whatsapp,
+        email: site.contact.email,
+        phoneDisplay: site.contact.phoneDisplay,
+        phoneHref: site.contact.phoneHref,
+        whatsapp: site.contact.whatsapp,
         social,
         defaultOgImage: s.default_og_image_url,
       };
@@ -108,4 +108,5 @@ export async function findRedirect(path: string): Promise<{ to: string; status: 
   );
   const hit = rows.find((r) => r.from_path === path);
   return hit ? { to: hit.to_path, status: hit.status_code } : null;
+
 }
