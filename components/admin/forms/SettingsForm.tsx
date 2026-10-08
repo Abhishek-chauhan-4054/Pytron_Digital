@@ -54,7 +54,7 @@ export function SettingsForm({ initial, canEdit }: { initial: V; canEdit: boolea
       <Card title="Contact details" description="Shown in the footer, contact blocks and structured data.">
         <div className="grid gap-5 sm:grid-cols-2">
           {text("contact_email", "Email", { type: "email" })}
-          {text("contact_phone", "Phone", { help: "Shown as written; the dial link is built automatically.", placeholder: "+91 70092 14812" })}
+          {text("contact_phone", "Phone", { help: "Shown as written; the dial link is built automatically.", placeholder: "+91 70177 05690" })}
           <div className="sm:col-span-2">{text("whatsapp_url", "WhatsApp link", { help: "e.g. https://wa.me/917009214812 — used by the floating WhatsApp button." })}</div>
         </div>
       </Card>

@@ -113,7 +113,7 @@ export const legalDocs: LegalDoc[] = [
       {
         heading: "Who we are",
         body: [
-          "This website, digital.pytron.in, is operated by Pytron Digital, the digital growth and technology arm of Pytron, based in Sitapur, India. You can contact us about privacy at business@pytron.io.",
+          "This website, digital.pytron.in, is operated by Pytron Digital, the digital growth and technology arm of Pytron, based in Sitapur, India. You can contact us about privacy at sahil.chauhan@pytron.in.",
         ],
       },
       {
@@ -156,7 +156,7 @@ export const legalDocs: LegalDoc[] = [
       {
         heading: "Your rights",
         body: [
-          "Depending on where you live, you may have the right to access, correct, delete or restrict use of your personal information, and to withdraw consent. Email business@pytron.io and we will respond within a reasonable time.",
+          "Depending on where you live, you may have the right to access, correct, delete or restrict use of your personal information, and to withdraw consent. Email sahil.chauhan@pytron.in and we will respond within a reasonable time.",
         ],
       },
       {
@@ -213,7 +213,7 @@ export const legalDocs: LegalDoc[] = [
       },
       {
         heading: "Contact",
-        body: ["Questions about these terms can be sent to business@pytron.io."],
+        body: ["Questions about these terms can be sent to sahil.chauhan@pytron.in."],
       },
     ],
   },
@@ -249,7 +249,7 @@ export const legalDocs: LegalDoc[] = [
       },
       {
         heading: "Contact",
-        body: ["Questions about cookies can be sent to business@pytron.io."],
+        body: ["Questions about cookies can be sent to sahil.chauhan@pytron.in."],
       },
     ],
   },

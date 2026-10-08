@@ -213,8 +213,8 @@ end if; end $$;
 
 -- Site settings (only fills empty values)
 update public.site_settings set
-  contact_email    = case when contact_email = '' then 'business@pytron.io' else contact_email end,
-  contact_phone    = case when contact_phone = '' then '+91 70092 14812' else contact_phone end,
+  contact_email    = case when contact_email = '' then 'sahil.chauhan@pytron.in' else contact_email end,
+  contact_phone    = case when contact_phone = '' then '+91 70177 05690' else contact_phone end,
   whatsapp_url     = case when whatsapp_url = '' then 'https://wa.me/917009214812' else whatsapp_url end,
   social_linkedin  = case when social_linkedin = '' then '' else social_linkedin end,
   social_instagram = case when social_instagram = '' then '' else social_instagram end,

@@ -250,7 +250,7 @@ export function ContactForm() {
 
       {status === "error" && (
         <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-          {serverError} You can also email us directly at business@pytron.io.
+          {serverError} You can also email us directly at sahil.chauhan@pytron.in.
         </p>
       )}
 

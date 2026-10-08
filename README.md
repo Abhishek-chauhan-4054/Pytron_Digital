@@ -26,7 +26,7 @@ npm start
 2. Add the domain `digital.pytron.in` in Project → Domains.
 3. Optional env vars for contact-form email (see `.env.example`):
    - `RESEND_API_KEY` — without it, submissions are validated and written to the server log only.
-   - `CONTACT_TO_EMAIL` (default `business@pytron.io`), `CONTACT_FROM_EMAIL` (must be a domain verified in Resend).
+   - `CONTACT_TO_EMAIL` (default `sahil.chauhan@pytron.in`), `CONTACT_FROM_EMAIL` (must be a domain verified in Resend).
 
 ## Quick edits (no coding needed)
 

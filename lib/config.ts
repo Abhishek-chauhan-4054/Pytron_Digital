@@ -22,7 +22,7 @@ export const hasAnalytics = Boolean(
 export const contactConfig = {
   /** Resend API key — sends each inquiry by email */
   resendKey: process.env.RESEND_API_KEY || "",
-  toEmail: process.env.CONTACT_TO_EMAIL || "business@pytron.io",
+  toEmail: process.env.CONTACT_TO_EMAIL || "sahil.chauhan@pytron.in",
   fromEmail: process.env.CONTACT_FROM_EMAIL || "Pytron Digital <website@pytron.io>",
   /**
    * Any webhook URL — Zapier, Make, n8n, HubSpot/Zoho workflow, Google Apps Script (to a Sheet),

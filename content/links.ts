@@ -24,7 +24,7 @@ export const projectLinks = {
   nachwalSolar: { url: "", image: "" },
   himalayanRoutes: { url: "", image: "" },
   driveReady: { url: "", image: "" },
-  pytronDigital: { url: "https://digital.pytron.in", image: "" },
+  pytronDigital: { url: "https://digital.pytron.io", image: "" },
 };
 
 /** Social profiles — empty ones are hidden from the footer. */
