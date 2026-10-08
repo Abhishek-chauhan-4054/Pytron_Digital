@@ -19,7 +19,7 @@ export const brand = {
 };
 
 export const site = {
-  url: "https://digital.pytron.in",
+  url: "https://digital.pytron.io",
   parent: { name: "Pytron", url: "https://pytron.io" },
   founder: {
     name: "Pardeep Kumar",
@@ -27,12 +27,12 @@ export const site = {
     experience: "10+ years of experience in technology and business",
     photo: founderPhoto,
   },
-  location: { city: "Sitapur", country: "India", countryCode: "IN" },
+  location: { countryCode: "IN" },
   contact: {
-    email: "business@pytron.io",
-    phoneDisplay: "+91 70092 14812",
-    phoneHref: "tel:+917009214812",
-    whatsapp: "https://wa.me/917009214812",
+    email: "Sahil.chauhan@pytron.io",
+    phoneDisplay: "+91 70177 05690",
+    phoneHref: "tel:+91 70177 05690",
+    whatsapp: "https://wa.me/917017705690",
   },
   operations: {
     label: "Client & Technology Operations",
