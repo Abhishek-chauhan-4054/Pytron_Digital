@@ -27,9 +27,9 @@ export const site = {
     experience: "10+ years of experience in technology and business",
     photo: founderPhoto,
   },
-  location: { countryCode: "IN" },
+  location: { city: "", country: "India", countryCode: "IN" },
   contact: {
-    email: "Sahil.chauhan@pytron.io",
+    email: "Sahil.chauhan@pytron.in",
     phoneDisplay: "+91 70177 05690",
     phoneHref: "tel:+91 70177 05690",
     whatsapp: "https://wa.me/917017705690",
