@@ -29,9 +29,9 @@ export const site = {
   },
   location: { city: "IN", country: "India", countryCode: "IN" },
   contact: {
-    email: "Sahil.chauhan@pytron.in",
-    phoneDisplay: "+91 70177 05690",
-    phoneHref: "tel:+91 70177 05690",
+    email: "Sahil.chauhan@pytron.in ",
+    phoneDisplay: "+91 7017705690",
+    phoneHref: "tel:+91 7017705690",
     whatsapp: "https://wa.me/917017705690",
   },
   operations: {
@@ -85,7 +85,7 @@ export const marketingMenu = {
   industries: [
     { label: "Healthcare & Clinics", href: "/industries/healthcare/" },
     { label: "Real Estate", href: "/industries/real-estate/" },
-    { label: "E-commerce & Retail", href: "/industries/ecommerce/" },
+    { label: "E-commerce & Retails", href: "/industries/ecommerce/" },
     { label: "Education", href: "/industries/education/" },
     { label: "Travel & Tourism", href: "/industries/travel/" },
     { label: "Restaurants & Hospitality", href: "/industries/hospitality/" },
@@ -110,7 +110,7 @@ export const aiMenu: NavLink[] = [
   { label: "AI Automation", href: "/ai-solutions/ai-automation/", description: "AI steps inside everyday workflows." },
   { label: "Business Automation", href: "/ai-solutions/business-automation/", description: "Connect tools and stop copy-pasting." },
   { label: "Document Processing", href: "/ai-solutions/document-processing/", description: "Extract data from PDFs, scans and forms." },
-  { label: "AI Integrations", href: "/ai-solutions/ai-integrations/", description: "Assistants and AI features in your product." },
+  { label: "AI-Integrations", href: "/ai-solutions/ai-integrations/", description: "Assistants and AI features in your product." },
 ];
 
 export const mainNav = [
